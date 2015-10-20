@@ -1,5 +1,25 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}
+html
+    head
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(type='text/javascript', src="http://code.jquery.com/jquery-1.9.1.min.js")
+        script(type='text/javascript', src="http://code.highcharts.com/highcharts.js")
+        script(type='text/javascript', src="http://code.highcharts.com/modules/exporting.js")
+        title=title
+        link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
+   body
+    div#container(style="min-width: 500px; height: 500px; margin: 0 auto")
+    script.
+        $(function () {
+            $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            series: [{
+                name: ["one"],
+                data: [1,2],
+                dataGrouping: {
+                    enabled: true
+                }
+                }]
+            });
+        });
