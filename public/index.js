@@ -23,8 +23,8 @@ $(function() {
 
                                         var x = (new Date()).getTime(),
                                             y = Math.random() * 10;
-                                        a.addPoint(response[0], false, true);
-                                        b.addPoint(response[1], true, true);
+                                        a.addPoint(response[0], false, false);
+                                        b.addPoint(response[1], true, false);
                                     }
                                 })
                             }, timeDelay);
