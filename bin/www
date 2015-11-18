@@ -7,7 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('app:server');
 var http = require('http');
-
+var fs=require('fs');
+var previous=[];
 /**
  * Get port from environment and store in Express.
  */
@@ -80,8 +81,65 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
-function onListening() {
+function readFile(name){
+ fs.readFile(name, "utf-8", function(err, data) {
+  
+        if (err) {
+            return err;}
+        else
+        return data;
+    }
+    )
+}
+function writeFile(name,data){
+ fs.writeFile(name,data,function(err, data) {
+        if (err) 
+           return err;
+        else
+          return data;
+    }
+    )
+}
+function writeA(data)
+{
+  data=parseFloat(data.substring(1));
+ // previous['a']['data'].append(data);
+  writeFile("a.json",data);
+}
+function writeB(data)
+{
+  //data=parseFloat(data.substring(1));previous['b']['data'].append(data);
+  writeFile("b.json",data);}
+function readXBee(){
+ fs.readFile("previous.json", "utf-8", function(err, data) {
+  
+        if (err) {
+            return err;}
+        else
+        previous=JSON.parse(data);
+      console.log(previous)
+    }
+    )
+  
+  var sp = require("serialport");
+        var SerialPort = sp.SerialPort
+        var serialPort = new SerialPort("/dev/ttyUSB0", {
+            baudrate: 9600,
+            parser: sp.parsers.readline("\n")
+        });
+        var a, b = "";
+        //  while (!a && !b) {
+        var temp = "";
+        serialPort.on('data', function(data) {
+            console.log(data);
+            temp = data;
+            if (data.indexOf(" A "))
+                writeA(data);
+            if (data.indexOf(" B "))
+                writeB(data) });
+      }
+function onListening() {   
+   readXBee();
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
