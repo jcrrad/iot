@@ -1,35 +1,18 @@
-var timeDelay = 2.5 * 1000;
-
-$(function() {
-    var data;
+var minutes = 5;
+var seconds = 0;
+var timeDelay = minutes * 60000 + seconds * 1000;
+var updateChart = function() {
     $.ajax({
         type: "GET",
         url: "/previous",
         success: function(response) {
-            var chart = $('#NameHere').highcharts({
+            response = JSON.parse(response);
+            console.log(response);
+            $('#NameHere').highcharts({
                 chart: {
                     type: 'spline',
                     animation: Highcharts.svg, // don't animate in old IE
-                    marginRight: 10,
-                    events: {
-                        load: function() {
-                            var a = this.series[0];
-                            var b = this.series[1];
-                            setInterval(function() {
-                                $.ajax({
-                                    type: "GET",
-                                    url: "/current",
-                                    success: function(response) {
-
-                                        var x = (new Date()).getTime(),
-                                            y = Math.random() * 10;
-                                        a.addPoint(response[0], false, false);
-                                        b.addPoint(response[1], true, false);
-                                    }
-                                })
-                            }, timeDelay);
-                        }
-                    }
+                    marginRight: 10
                 },
                 title: {
                     text: 'Temperature'
@@ -38,7 +21,10 @@ $(function() {
                 xAxis: {
                     type: 'datetime',
                     dateTimeLabelFormats: {
-                        second: '%I:%M:%S',
+                        second: '%I:%M:%S %p',
+                        minute: '%I:%M %p',
+                        hour: '%I:%M %p'
+
                     },
                     title: {
                         text: 'Date'
@@ -51,14 +37,13 @@ $(function() {
                     },
                     labels: {
                         formatter: function() {
-                            return this.value + ' ºC';
+                            return this.value + ' ºF';
                         }
                     }
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.y} ºC</b><br/>',
+                    pointFormat: '{series.name}: <b>{point.y:,.2f} ºF</b><br/>',
                     shared: true,
-
                     legend: {
                         enabled: false
                     }
@@ -67,36 +52,10 @@ $(function() {
             })
         }
     })
-    var addPoint = function() {
-        $.ajax({
-            type: "GET",
-            url: "/current",
-            success: function(response) {
-
-                //chart.series[0].addPoint(Math.random() * 100, true, true);
-            }
-        })
-    };
+}
+$(function() {
+    updateChart();
+    setInterval(function() {
+        updateChart();
+    }, timeDelay);
 });
-
-var onLoad = function() {
-    var label = this.renderer.label('Chart loaded', 100, 120)
-        .attr({
-            fill: Highcharts.getOptions().colors[0],
-            padding: 10,
-            r: 5,
-            zIndex: 8
-        })
-        .css({
-            color: '#FFFFFF'
-        })
-        .add();
-
-    setTimeout(function() {
-        label.fadeOut();
-    }, 1000);
-}
-
-var cToF = function(degree) {
-    return degree * 9 / 5 + 32;
-}
