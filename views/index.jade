@@ -10,10 +10,15 @@ html(lang="en")
         link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
    body
     div#container(style="min-width: 500px; height: 500px; margin: 0 auto")
-        a(href='/')
-            span.glyphicon.glyphicon-refresh 
-        a(href='/clear')
-            span.glyphicon.glyphicon-remove
-        #NameHere.GPH
+        div.jumbotron
+            a(href='/')
+                span.glyphicon.glyphicon-refresh 
+            a(href='/clear')
+                span.glyphicon.glyphicon-remove
+            #NameHere.GPH
+        div.jumbotron
+            .col-xs-6.col-md-4.button.btn.btn-primary(onclick='setTargetTemp(0)') Set Target Temperature(sensor 1)
+            .col-xs-6.col-md-4.button.btn.btn-primary(onclick='setTargetTemp(1)') Set Target Temperature(sensor 2)
+            .col-xs-12.col-md-4.button.btn.btn-primary(onclick='setTargetTime()') Set Target Timer       
 
 script(src='index.js')

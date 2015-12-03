@@ -1,4 +1,4 @@
-var minutes = 5;
+var minutes = .5;
 var seconds = 0;
 var timeDelay = minutes * 60000 + seconds * 1000;
 var updateChart = function() {
@@ -55,7 +55,46 @@ var updateChart = function() {
 }
 $(function() {
     updateChart();
+
     setInterval(function() {
+        checkAlarms();
         updateChart();
     }, timeDelay);
 });
+
+function checkAlarms() {
+    $.ajax({
+        type: "GET",
+        url: "/alarms",
+        success:function(reponse){
+            alert("STOP");
+        }
+    })
+}
+
+function setTargetTemp(sensor) {
+    var temp = prompt("Please enter desired Temp on sensor 1", "155");
+    if (temp != null) {
+        $.ajax({
+            type: "get",
+            url: "/temp/" + sensor + "/" + temp,
+            success: function(response) {
+                alert("Temperature\t:" + temp + "\nSensor\t:" + Sensor);
+            }
+        });
+    }
+}
+
+
+function setTargetTime() {
+    var delta = prompt("Please enter desired Timer(mins)", "15");
+    if (delta != null) {
+        $.ajax({
+            type: "GET",
+            url: "/time/" + sensor + "/" + temp,
+            success: function(response) {
+                alert("Timer\t:" + delta);
+            }
+        });
+    }
+}
