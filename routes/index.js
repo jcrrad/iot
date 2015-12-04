@@ -22,8 +22,8 @@ router.get('/', function(req, res, next) {
 });
 var sp = require("serialport");
 var SerialPort = sp.SerialPort
-var serialPort = new SerialPort("COM12", {
-    // var serialPort = new SerialPort("/dev/ttyUSB0", {
+    //var serialPort = new SerialPort("COM12", {
+var serialPort = new SerialPort("/dev/ttyUSB1", {
     baudrate: 9600,
     parser: sp.parsers.readline("\n")
 });
@@ -118,6 +118,7 @@ function getFormatedTime() {
 }
 
 function writeA(number) {
+    console.log(number);
     var date = getFormatedTime()
     number = convertTemp(number);
     previous[0]['data'].push([date, number]);
@@ -150,10 +151,11 @@ function cToF(degree) {
 function readXBee() {
     var temp = "";
     serialPort.on('data', function(temp) {
-        //console.log(temp);
-        if (temp.indexOf("A"))
+        console.log(temp);
+
+        if (temp.indexOf("A") == 0)
             writeA(temp);
-        if (temp.indexOf("B"))
+        if (temp.indexOf("B") == 0)
             writeB(temp);
         writeFile("previous.json", JSON.stringify(previous));
     });
