@@ -1,11 +1,10 @@
 html(lang="en")
-    title= "IOT"
+    title= "Temperature"
     head
 
         link(rel='stylesheet', href='/stylesheets/style.css')
         script(type='text/javascript', src="http://code.jquery.com/jquery-1.9.1.min.js")
         script(type='text/javascript', src="http://code.highcharts.com/highcharts.js")
-        script(type='text/javascript', src="http://code.highcharts.com/modules/exporting.js")
         title=title
         link(href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css', rel='stylesheet')
    body
@@ -16,9 +15,5 @@ html(lang="en")
             a(href='/clear')
                 span.glyphicon.glyphicon-remove
             #NameHere.GPH
-        div.jumbotron
-            .col-xs-6.col-md-4.button.btn.btn-primary(onclick='setTargetTemp(0)') Set Target Temperature(sensor 1)
-            .col-xs-6.col-md-4.button.btn.btn-primary(onclick='setTargetTemp(1)') Set Target Temperature(sensor 2)
-            .col-xs-12.col-md-4.button.btn.btn-primary(onclick='setTargetTime()') Set Target Timer       
 
 script(src='index.js')
