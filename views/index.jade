@@ -1,7 +1,6 @@
 html(lang="en")
     title= "Temperature"
     head
-
         link(rel='stylesheet', href='/stylesheets/style.css')
         script(type='text/javascript', src="http://code.jquery.com/jquery-1.9.1.min.js")
         script(type='text/javascript', src="http://code.highcharts.com/highcharts.js")
@@ -14,6 +13,6 @@ html(lang="en")
                 span.glyphicon.glyphicon-refresh 
             a(href='/clear')
                 span.glyphicon.glyphicon-remove
-            #NameHere.GPH
+            #TempChart.GPH
 
-script(src='index.js')
+        script(src='index.js')

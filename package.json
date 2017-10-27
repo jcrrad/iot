@@ -7,14 +7,15 @@
   },
   "dependencies": {
     "body-parser": "*",
+    "bootstrap": "*",
     "cookie-parser": "*",
     "debug": "*",
     "express": "*",
-    "pug": "*",
+    "jade": "^1.11.0",
     "morgan": "*",
-    "serve-favicon": "*",
-    "bootstrap": "*",
-    "serialport":"*",
-    "mysql":"*"
+    "mysql": "*",
+    "pug": "*",
+    "serialport": "*",
+    "serve-favicon": "*"
   }
 }

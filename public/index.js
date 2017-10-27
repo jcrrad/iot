@@ -1,14 +1,13 @@
 var minutes = .5;
 var seconds = 0;
 var timeDelay = minutes * 60000 + seconds * 1000;
-var updateChart = function() {
+var updateChart = function () {
     $.ajax({
         type: "GET",
         url: "/previous",
-        success: function(response) {
-            response = JSON.parse(response);
+        success: function (response) {
             console.log(response);
-            $('#NameHere').highcharts({
+            $('#TempChart').highcharts({
                 chart: {
                     type: 'spline',
                     animation: Highcharts.svg, // don't animate in old IE
@@ -36,7 +35,7 @@ var updateChart = function() {
                         text: 'Temperature'
                     },
                     labels: {
-                        formatter: function() {
+                        formatter: function () {
                             return this.value + ' ºF';
                         }
                     }
@@ -53,10 +52,6 @@ var updateChart = function() {
         }
     })
 }
-$(function() {
+$(function () {
     updateChart();
-    setInterval(function() {
-        checkAlarms();
-        updateChart();
-    }, timeDelay);
 });
