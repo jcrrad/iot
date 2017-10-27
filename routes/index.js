@@ -1,12 +1,12 @@
 var express = require('express');
-var mysql = require('mysql')
+var mysql = require('mysql');
 var fs = require('fs');
 
 var router = express.Router();
 var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
+    host: "192.168.86.63",
+    user: "jeff",
+    password: "password",
     database: "temperature"
 });
 
@@ -17,15 +17,19 @@ router.get('/', function (req, res, next) {
 
 router.get('/previous', function (req, res, next) {
     //TODO read from database
-    var result=[];
-    con.query("SELECT temperature,sensor,timestamp FROM sensor", function (err, raw, fields) {
-        if (err) throw err;
+    var result = [];
+    con.query("SELECT\n" +
+        "  temperature,\n" +
+        "  sensor,\n" +
+        "  timestamp\n" +
+        "FROM Temperature", function (err, raw, fields) {
         for (key in raw) {
-            result.push([raw[key]['timestamp'],raw[key]['temperature']])
+            result.push( raw[key]['temperature'])
             console.log(raw[key]);
         }
 
-        res.send([{name:"A",data:result}])
+         res.send([{name:"A",data:result}])
+        //res.send(result);
     });
 })
 
