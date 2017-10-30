@@ -4,7 +4,7 @@ var fs = require('fs');
 
 var router = express.Router();
 var con = mysql.createConnection({
-    host: "192.168.86.63",
+    host: "192.168.1.4",
     user: "jeff",
     password: "password",
     database: "temperature"
@@ -16,29 +16,27 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/previous', function (req, res, next) {
-    //TODO read from database
-    var result = [];
-    con.query("SELECT\n" +
-        "  temperature,\n" +
+    var result1 = [];
+    var result2 = [];
+    var query = "SELECT\n" +
         "  sensor,\n" +
-        "  timestamp\n" +
-        "FROM Temperature", function (err, raw, fields) {
+        "  avg(Temperature) as temperature,\n" +
+        "  date_format(readingTime ,'%m-%d-%y %T')as readingTime\n" +
+        "FROM Temperature\n" +
+        "group by sensor, readingTime\n" +
+        "limit 1000"
+    con.query(query, function (err, raw, fields) {
         for (key in raw) {
-            result.push( raw[key]['temperature'])
             console.log(raw[key]);
+            if (raw[key]['sensor'] == 1)
+                result1.push([new Date(raw[key]['readingTime']), parseFloat(raw[key]['temperature'])])
+            if (raw[key]['sensor'] == 2)
+                result2.push([new Date(raw[key]['readingTime']), parseFloat(raw[key]['temperature'])])
         }
-
-         res.send([{name:"A",data:result}])
-        //res.send(result);
+        res.send([{name: "Inside", data: result1},
+            {name: "Outside", data: result2}])
     });
 })
-
-router.get('/save/:sensor/:temp', function (req, res, next) {
-    var sensor = parseFloat(req.params.sensor);
-    var temp = parseFloat(req.params.temp);
-    //todo write to database
-    res.send(200);
-});
 
 
 function convertTemp(number) {
